@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.12 2004/02/12 14:45:08 ndade Exp $
+   $Id: pwsafe.cpp,v 1.13 2004/02/12 15:21:46 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,8 +21,9 @@
 
 */
 
-#include <sys/types.h>
-#include "system.h"
+#if HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,11 +39,13 @@
 #include <signal.h>
 #endif
 #include <getopt.h>
+#include <sys/types.h>
 #include <errno.h>
 #include <pwd.h>
 #include <regex.h>
 #include <sys/mman.h>
 #include <limits.h>
+
 
 #include <string>
 #include <map>
@@ -50,6 +53,7 @@
 #include <algorithm>
 #include <memory>
 
+#include "system.h"
 
 #include <termios.h>
 
@@ -84,6 +88,7 @@ static char* readline(const char*);
 #include <X11/Xmu/Atoms.h>
 #include <X11/Xmu/WinUtil.h>
 #endif
+
 
 // The name the program was run with, stripped of any leading path
 const char *program_name = "pwsafe"; // make sure program_name always points to something valid so we can use it in constructors of globals
