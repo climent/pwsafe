@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl confgure.ac for pwsafe
-dnl $Id: configure.ac,v 1.19 2004/05/08 00:01:55 ndade Exp $
+dnl $Id: configure.ac,v 1.20 2004/10/07 16:04:03 ndade Exp $
 
 AC_PREREQ(2.5)
 AC_INIT(pwsafe.cpp)
@@ -264,6 +264,50 @@ typedef std::basic_string<char, std::string::traits_type, test_alloc> test_strin
    AC_MSG_RESULT(yes)],
   [AC_MSG_RESULT(no)])
 AC_LANG_POP(C++)
+
+
+dnl some systems do not support O_NOFOLLOW
+AC_MSG_CHECKING([if O_NOFOLLOW is supported])
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM(
+    [[
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#if HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+    ]],[[
+    int i = O_NOFOLLOW;
+    ]]
+  )],
+  [AC_DEFINE(HAVE_O_NOFOLLOW, 1, [Define to 1 if O_NOFOLLOW is supported])
+   AC_MSG_RESULT(yes)],
+  [AC_MSG_RESULT(no)])
+
+
+dnl some systems do not supply getline()
+AC_MSG_CHECKING([if getline() is supported])
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM(
+    [[
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+#include <stdio.h>
+    ]],[[
+    char* buf = 0;
+    size_t len = 0;
+    getline(&buf,&len,0);
+    ]]
+  )],
+  [AC_DEFINE(HAS_GETLINE, 1, [Define to 1 if getline() is supported])
+   AC_MSG_RESULT(yes)],
+  [AC_MSG_RESULT(no)])
+
 
 
 dnl SCM_CREDENTIALS are nice for the paranoid, but aren't universally supported
