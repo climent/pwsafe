@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.36 2004/10/07 16:04:03 ndade Exp $
+   $Id: pwsafe.cpp,v 1.37 2004/10/08 15:50:36 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1239,6 +1239,7 @@ static secstring random_password() {
                                        "ABCDEFGHJKLMNPQRTUVWXY"
                                        "346789";
   const static char easyvision_symbol[] = "+-=_@#$%^&<>/~\\?";
+  const static char hex_only[] = "0123456789abcdef";
   const static char digits_only[] = "0123456789";
 
 
@@ -1276,6 +1277,12 @@ static secstring random_password() {
         type_name = "digits only";
         sets[0] = digits_only;
         entropy_per_char = 332; // 100 * log2(10)
+        one_char_from_each_type = false;
+        break; 
+      case 5:
+        type_name = "hex digits only";
+        sets[0] = hex_only;
+        entropy_per_char = 400; // 100 * log2(16)
         one_char_from_each_type = false;
         break; 
       default:
