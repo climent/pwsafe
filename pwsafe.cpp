@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.16 2004/02/21 09:45:54 ndade Exp $
+   $Id: pwsafe.cpp,v 1.17 2004/02/21 10:02:33 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -138,7 +138,7 @@ const char* arg_selection = "both"; // by default copy to primary X selection an
 static Display* xdisplay = NULL;
 #endif
 
-static struct long_option const long_options[] =
+static long_option const long_options[] =
 {
   // commands
   {"createdb", no_argument, 0, 'C'},
