@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl confgure.ac for pwsafe
-dnl $Id: configure.ac,v 1.15 2004/03/03 22:34:22 ndade Exp $
+dnl $Id: configure.ac,v 1.16 2004/03/04 11:17:52 ndade Exp $
 
 AC_PREREQ(2.5)
 AC_INIT(pwsafe.cpp)
@@ -78,7 +78,7 @@ fi
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(unistd.h sys/param.h sys/time.h time.h sys/mkdev.h sys/sysmacros.h string.h memory.h fcntl.h dirent.h sys/ndir.h ndir.h alloca.h locale.h fcntl.h signal.h sys/select.h)
+AC_CHECK_HEADERS(unistd.h sys/param.h sys/time.h time.h sys/types.h sys/mkdev.h sys/sysmacros.h string.h memory.h fcntl.h dirent.h sys/ndir.h ndir.h alloca.h locale.h fcntl.h signal.h sys/select.h sys/resource.h sys/socket.h sys/un.h sys/mman.h)
 AC_CHECK_HEADERS(stdint.h errno.h termios.h getopt.h)
 AC_CHECK_HEADERS(openssl/sha.h openssl/blowfish.h openssl/rand.h, [], [AC_MSG_ERROR(openssl headers (libssl-dev) are required)])
 if test "$with_readline" != no; then
@@ -104,6 +104,7 @@ if test "$with_getopt_long" != no; then
  AC_CHECK_FUNC(getopt_long, [AC_DEFINE(HAS_GETOPT_LONG, 1, [Define to 1 if getopt_long is supported])], [])
 fi
 AC_CHECK_FUNC(tcsetattr, [], [AC_MSG_ERROR(tcsetattr() is needed)])
+AC_CHECK_FUNC(setrlimit, [AC_DEFINE(HAVE_SETRLIMIT, 1, [Define to 1 if setrlimit is supported])], [])
 if test "$with_readline" != no; then
 AC_CHECK_FUNC(readline, [], [AC_MSG_ERROR(readline() is needed)])
 fi
