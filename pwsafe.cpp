@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.31 2004/10/03 20:19:42 ndade Exp $
+   $Id: pwsafe.cpp,v 1.32 2004/10/03 20:44:50 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1564,8 +1564,10 @@ static void emit(const secstring& name, const char*const what, const secstring& 
               if (nm.value) XFree(nm.value);
               if (cm.value) XFree(cm.value);
 
-              if (!fakeout) 
+              if (!fakeout) {
                 XChangeProperty(xdisplay, xev.xselectionrequest.requestor, prop, XA_STRING, 8, PropModeReplace, reinterpret_cast<const unsigned char*>(txt.c_str()), txt.length());
+                done = true;
+              }
 
               prevprev_requestor = prev_requestor;
               prev_requestor = xev.xselectionrequest.requestor;
@@ -1578,8 +1580,6 @@ static void emit(const secstring& name, const char*const what, const secstring& 
 
           if (fakeout)
             prop = None; // indicate no answer
-          else
-            done = true;
 
           XEvent resp;
           resp.xselection.property = prop;
