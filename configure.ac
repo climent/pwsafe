@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl confgure.ac for pwsafe
-dnl $Id: configure.ac,v 1.17 2004/03/04 11:59:42 ndade Exp $
+dnl $Id: configure.ac,v 1.18 2004/03/04 13:23:13 ndade Exp $
 
 AC_PREREQ(2.5)
 AC_INIT(pwsafe.cpp)
@@ -94,6 +94,17 @@ AC_HEADER_MAJOR
 AC_STRUCT_TM
 
 dnl Checks for typedefs, structures, and compiler characteristics.
+
+dnl MacOSX, for example, does not define socklen_t
+AC_CHECK_TYPE(socklen_t,[AC_DEFINE(HAVE_SOCKLEN_T, 1, [Define to 1 if the type socklen_t exists])],,[
+#if HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#if HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+ ])
+
 
 dnl Checks for library functions.
 AM_SYS_POSIX_TERMIOS
