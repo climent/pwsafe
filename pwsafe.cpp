@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.33 2004/10/05 13:55:16 ndade Exp $
+   $Id: pwsafe.cpp,v 1.34 2004/10/05 16:17:28 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  
 
 */
+
+#define _GNU_SOURCE
 
 #if HAVE_CONFIG_H
 #include "config.h"
