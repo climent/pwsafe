@@ -3,6 +3,8 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
+   $Id: pwsafe.cpp,v 1.2 2004/01/27 02:16:07 ndade Exp $
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
