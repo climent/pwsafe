@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.21 2004/03/02 06:27:56 ndade Exp $
+   $Id: pwsafe.cpp,v 1.22 2004/03/02 07:24:16 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1107,6 +1107,8 @@ static void emit(const secstring& name, const char*const what, const secstring& 
       // now that we turn ICANON off we *must* set VMIN=1 or on sparc the read() buffers 4 at a time
       new_tio.c_cc[VMIN] = 1;
       new_tio.c_cc[VTIME] = 0;
+      // turn off echo too; no need to show them the char they pressed
+      new_tio.c_lflag &= ~(ECHO);
       tcsetattr(STDIN_FILENO, TCSANOW, &new_tio);
     }
 
