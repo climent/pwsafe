@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.15 2004/02/21 08:27:31 ndade Exp $
+   $Id: pwsafe.cpp,v 1.16 2004/02/21 09:45:54 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -229,8 +229,8 @@ static bool getyn(const char* prompt, int def_val=-1);
 
 static inline char get1char(const std::string& prompt, int dev_val=-1) { return get1char(prompt.c_str(), dev_val); }
 static inline char get1char(const secstring& prompt, int dev_val=-1) { return get1char(prompt.c_str(), dev_val); }
-static inline bool getyn(const std::string& prompt, int dev_val=-1) { return get1char(prompt.c_str(), dev_val); }
-static inline bool getyn(const secstring& prompt, int dev_val=-1) { return get1char(prompt.c_str(), dev_val); }
+static inline bool getyn(const std::string& prompt, int dev_val=-1) { return getyn(prompt.c_str(), dev_val); }
+static inline bool getyn(const secstring& prompt, int dev_val=-1) { return getyn(prompt.c_str(), dev_val); }
 
 struct FailEx {}; // thrown to unwind, cleanup and cause main to return 1
 struct ExitEx { const int rc; explicit ExitEx(int c) : rc(c) {} }; // thrown to unwind and exit() with rc
@@ -1825,11 +1825,11 @@ void DB::edit(const char* regex) {
     if (!e.default_login) {
       e.login = gettxt("username: ["+e_orig.login+"] ", e_orig.login);
       if (e.login.empty() && !e_orig.default_login) // no point in asking if they just disabled default login
-        e.default_login = getyn("user default username ("+e_orig.the_default_login+") ? [n]", false);
+        e.default_login = getyn("use default username ("+e_orig.the_default_login+") ? [n]", false);
     }
 
     while (true) {
-      if (getyn("change password ? [N] ", false)) {
+      if (getyn("change password ? [n] ", false)) {
         secstring new_pw = enter_password("new password: [return for random]", "new password again: ");
         if (new_pw.empty() && !e.password.empty()) {
           if (!getyn("Confirm changing to an empty password ? [n] "))
