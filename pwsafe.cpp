@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.8 2004/02/10 07:10:22 ndade Exp $
+   $Id: pwsafe.cpp,v 1.9 2004/02/10 07:11:33 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2077,7 +2077,7 @@ void secalloc::cleanup() {
 void* secalloc::allocate(size_t n) {
   if (!pools || pools->top - pools->level < n) {
     // need a new pool
-    Pool* p = new Pool(std::max(n, static_cast<size_t>(0*pagesize)));
+    Pool* p = new Pool(std::max(n, static_cast<size_t>(16*pagesize)));
     p->next = pools;
     pools = p;
   }
