@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl confgure.ac for pwsafe
-dnl $Id: configure.ac,v 1.16 2004/03/04 11:17:52 ndade Exp $
+dnl $Id: configure.ac,v 1.17 2004/03/04 11:59:42 ndade Exp $
 
 AC_PREREQ(2.5)
 AC_INIT(pwsafe.cpp)
@@ -190,9 +190,6 @@ AC_LANG_POP(C++)
 fi
 
       
-      
-
-
 
 dnl different versions of g++ implement allocators differently. Figure out what kind this g++ uses.
 dnl Note: g++ 3.0 is too broken to be supported, use 2.96 or 3.y, y>=1.
@@ -223,6 +220,32 @@ typedef std::basic_string<char, std::string::traits_type, test_alloc> test_strin
    AC_MSG_RESULT(yes)],
   [AC_MSG_RESULT(no)])
 AC_LANG_POP(C++)
+
+
+dnl SCM_CREDENTIALS are nice for the paranoid, but aren't universally supported
+AC_MSG_CHECKING([if SCM_CREDENTIALS are supported])
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM(
+    [[
+#if HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#if HAVE_SYS_UN_H
+#include <sys/un.h>
+#endif
+    ]],[[
+  struct ucred c;
+  socklen_t clen = sizeof(c);
+  int sock;
+  int one = 1;
+  sock = socket(AF_UNIX, SOCK_STREAM, 0);
+  setsockopt(sock, SOL_SOCKET, SO_PASSCRED, &one, sizeof(one));
+  getsockopt(sock, SOL_SOCKET, SO_PEERCRED, &c, &clen);
+    ]]
+  )],
+  [AC_DEFINE(HAVE_SCM_CREDENTIALS, 1, [Define to 1 if linux SCM_CREDENTIALS are supported])
+   AC_MSG_RESULT(yes)],
+  [AC_MSG_RESULT(no)])
 
 
 dnl if we enabled debug, remove the -O2 and add -g; actually I override the -O2 by following it with -O0
