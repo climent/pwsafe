@@ -1,12 +1,12 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl confgure.ac for pwsafe
-dnl $Id: configure.ac,v 1.14 2004/02/27 11:49:09 ndade Exp $
+dnl $Id: configure.ac,v 1.15 2004/03/03 22:34:22 ndade Exp $
 
 AC_PREREQ(2.5)
 AC_INIT(pwsafe.cpp)
 
 dnl Every other copy of the package version number gets its value from here
-AM_INIT_AUTOMAKE(pwsafe, 0.1.6)
+AM_INIT_AUTOMAKE(pwsafe, 0.1.7)
 
 dnl create a config.h file (Automake will add -DHAVE_CONFIG_H)
 AM_CONFIG_HEADER(config.h)
