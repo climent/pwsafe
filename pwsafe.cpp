@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.29 2004/10/02 17:50:15 ndade Exp $
+   $Id: pwsafe.cpp,v 1.30 2004/10/02 18:05:18 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1404,21 +1404,24 @@ static void emit(const secstring& name, const char*const what, const secstring& 
 
     fd_set in;
     FD_ZERO(&in);
+    bool done = false;
 
     while (xsel1 || xsel2) {
       if (timestamp && FD_ISSET(STDIN_FILENO, &in)) {
         char x;
         ssize_t rc = read(STDIN_FILENO,&x,1);
-        if (rc == 1) {
-          // we are done
-          if (xsel1) {
-            XSetSelectionOwner(xdisplay, xsel1, None, timestamp);
-            xsel1 = 0;
-          }
-          if (xsel2) {
-            XSetSelectionOwner(xdisplay, xsel2, None, timestamp);
-            xsel2 = 0;
-          }
+        done |= (rc == 1);
+      }
+
+      if (done) {
+        // we are done
+        if (xsel1) {
+          XSetSelectionOwner(xdisplay, xsel1, None, timestamp);
+          xsel1 = 0;
+        }
+        if (xsel2) {
+          XSetSelectionOwner(xdisplay, xsel2, None, timestamp);
+          xsel2 = 0;
         }
       }
 
@@ -1552,6 +1555,8 @@ static void emit(const secstring& name, const char*const what, const secstring& 
 
           if (fakeout)
             prop = None; // indicate no answer
+          else
+            done = true;
 
           XEvent resp;
           resp.xselection.property = prop;
@@ -1565,7 +1570,6 @@ static void emit(const secstring& name, const char*const what, const secstring& 
         }
         else if (xev.type == SelectionClear) {
           // some other program is taking control of the selection, so we are done
-          bool done = true;
           // don't answer if the timestamp is too early or too late
           if (!timestamp || (xev.xselectionclear.time != CurrentTime && xev.xselectionclear.time < timestamp)) {
             // ignore it; timestamp is out of bounds
@@ -1591,7 +1595,7 @@ static void emit(const secstring& name, const char*const what, const secstring& 
       }
 
       // wait for either a keystroke or an x event
-      if (xsel1 || xsel2) {
+      if (!done && (xsel1 || xsel2)) {
         FD_ZERO(&in);
         FD_SET(STDIN_FILENO, &in);
         FD_SET(xfd, &in);
