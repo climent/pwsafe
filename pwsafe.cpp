@@ -3,7 +3,7 @@
 
    Copyright (C) 2004 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.37 2004/10/08 15:50:36 ndade Exp $
+   $Id: pwsafe.cpp,v 1.38 2004/10/21 19:06:03 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -527,6 +527,7 @@ int main(int argc, char **argv) {
       if (arg_ignore.empty()) {
         arg_ignore.insert("xclipboard");
         arg_ignore.insert("klipper");
+        arg_ignore.insert("wmcliphist");
       }
 #endif
       
