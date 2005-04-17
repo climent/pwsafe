@@ -3,7 +3,7 @@
 
    Copyright (C) 2004-2005 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.45 2005/03/14 11:57:24 ndade Exp $
+   $Id: pwsafe.cpp,v 1.46 2005/04/17 19:11:43 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -3226,6 +3226,7 @@ static char* readline(const char* prompt) {
   if (!buf)
     throw FailEx();
   memcpy(buf, saved.data(), saved.length());
+  buf[saved.length()] = '\0';
 
   while (!strchr(buf,'\n')) {
     const int rc = ::read(STDIN_FILENO, buf+bufpos, buflen);
