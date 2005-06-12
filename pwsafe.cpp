@@ -3,7 +3,7 @@
 
    Copyright (C) 2004-2005 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.47 2005/04/17 19:37:03 ndade Exp $
+   $Id: pwsafe.cpp,v 1.48 2005/06/12 05:08:25 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2157,7 +2157,7 @@ void DB::mergedb(DB& db2) {
             e.groupname() == f.groupname()) {
           // this is the same entry, but the contents are different
           secstring summary;
-          int n = e.diff(f,summary);
+          int n = f.diff(e,summary);
           while (!done) {
             switch (tolower(get1char("Entry "+e.groupname()+" differs ("+summary+"). Overwrite ? [y/N/d/?/q] ", 'n'))) {
               case 'y':
@@ -2171,7 +2171,7 @@ void DB::mergedb(DB& db2) {
                 done = true;
                 break;
               case 'd': case '?':
-                printf("%s", e.diff(f).c_str());
+                printf("%s", f.diff(e).c_str());
                 break;
               case 'q':
                 throw FailEx();
