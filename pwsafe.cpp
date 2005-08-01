@@ -3,7 +3,7 @@
 
    Copyright (C) 2004-2005 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.50 2005/06/30 08:52:40 ndade Exp $
+   $Id: pwsafe.cpp,v 1.51 2005/08/01 04:30:49 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1622,8 +1622,10 @@ static secstring random_password() {
         type++;
         break;
       case '-':
-        if (entropy_needed > 64)
+        if (entropy_needed > 128)
           entropy_needed -= 32;
+        else if (entropy_needed > 64)
+          entropy_needed -= 16;
         else if (entropy_needed > 32)
           entropy_needed -= 8;
         // else you can't go any lower
@@ -1631,6 +1633,8 @@ static secstring random_password() {
       case '+': case '=':
         if (entropy_needed < 64)
           entropy_needed += 8;
+        else if (entropy_needed < 128)
+          entropy_needed += 16; // so we can hit 112, the magic number for WEP keys
         else
           entropy_needed += 32;
         break;
@@ -1639,8 +1643,8 @@ static secstring random_password() {
                "  Y      Yes, accept this password\n"
                "  N      No, generate another password of same type\n"
                "  <space> Cycle through password types\n"
-               "  +      Lower the needed entropy/password length\n"
-               "  -      More entropy/password length\n"
+               "  -      Lower the entropy & password length\n"
+               "  +      Raise the entropy & password length\n"
                "  Q      Quit\n"
                "  ?      Help\n");
         continue;
