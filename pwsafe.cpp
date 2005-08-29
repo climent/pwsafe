@@ -3,7 +3,7 @@
 
    Copyright (C) 2004-2005 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.53 2005/08/03 01:48:52 ndade Exp $
+   $Id: pwsafe.cpp,v 1.54 2005/08/29 23:36:34 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -922,6 +922,7 @@ int main(int argc, char **argv) {
           strcpy(dbname, home);
           strcat(dbname, "/");
           strcat(dbname, datname);
+          arg_dbname = dbname;
         } else {
           // datname is already an absolute path
           arg_dbname = datname;
