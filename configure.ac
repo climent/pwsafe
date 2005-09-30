@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl confgure.ac for pwsafe
-dnl $Id: configure.ac,v 1.23 2005/03/14 06:10:43 ndade Exp $
+dnl $Id: configure.ac,v 1.24 2005/09/30 13:00:18 ndade Exp $
 
 AC_PREREQ(2.5)
 AC_INIT(pwsafe.cpp)
@@ -61,6 +61,12 @@ AC_FUNC_MEMCMP
 
 dnl Check for X
 AC_PATH_XTRA
+
+dnl if this is OS X then we're going to need -flat_namespace -supress undefined in order to build against the X libraries
+dnl and since it doesn't hurt otherwise, always use the option (thanks to Robert)
+case $ac_sys_system/$ac_sys_release in
+  Darwin/*)LDFLAGS="$LDFLAGS -flat_namespace -undefined suppress";;
+esac
 
 dnl Checks for libraries.
 dnl AM_WITH_REGEX
