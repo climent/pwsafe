@@ -3,7 +3,7 @@
 
    Copyright (C) 2004-2005 Nicolas S. Dade
 
-   $Id: pwsafe.cpp,v 1.55 2005/09/30 08:49:13 ndade Exp $
+   $Id: pwsafe.cpp,v 1.56 2005/09/30 10:30:56 ndade Exp $
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -3053,12 +3053,12 @@ bool DB::Entry::read(FILE* f, DB::Context& c) {
       if (p != name.npos)
         name = name.substr(0,p+1);
       else
-        name = name.substr(0,0); // nothing left of name
+        name.erase(); // nothing left of name
       p = login.find_first_not_of(' ');
       if (p != login.npos)
         login = login.substr(p,login.npos);
       else
-        login = login.substr(p,p); // nothing left of login
+        login.erase(); // nothing left of login
     }
   }
 
