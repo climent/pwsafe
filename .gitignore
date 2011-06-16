@@ -1,0 +1,12 @@
+*.o
+*.1
+Makefile
+*.in
+.deps/
+config*
+aclocal.m4
+autom4te.cache/
+pwsafe
+pwsafe.lsm
+pwsafe.spec
+stamp-h1
