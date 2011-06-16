@@ -1,4 +1,8 @@
-	pwsafe - commandline tool compatible with Counterpane's Passwordsafe
+  == pwsafe ==
+  
+  commandline tool compatible with Counterpane's Passwordsafe
+
+  This is a Console tool written in cpp for managing password database on local machine.
 
 
 
